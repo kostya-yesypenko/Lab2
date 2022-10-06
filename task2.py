@@ -16,24 +16,24 @@ class Rational:
     def ab_form(self):
         return f'{self.numerator} / {self.denominator}'
 
-    def __truediv__(self, other):
-        numerator = self.numerator * other.denominator
-        denominator = self.denominator * other.numerator
+    def __truediv__(self, second):
+        numerator = self.numerator * second.denominator
+        denominator = self.denominator * second.numerator
         return Rational(numerator, denominator)
 
-    def __add__(self, other):
-        numerator = self.numerator * other.denominator + other.numerator * self.denominator
+    def __add__(self, second):
+        numerator = self.numerator * second.denominator + other.numerator * self.denominator
         denominator = self.denominator * other.denominator
         return Rational(numerator, denominator)
 
-    def __sub__(self, other):
-        numerator = self.numerator * other.denominator - other.numerator * self.denominator
-        denominator = self.denominator * other.denominator
+    def __sub__(self, second):
+        numerator = self.numerator * second.denominator - second.numerator * self.denominator
+        denominator = self.denominator * second.denominator
         return Rational(numerator, denominator)
 
-    def __mul__(self, other):
-        numerator = self.numerator * other.numerator
-        denominator = self.denominator * other.denominator
+    def __mul__(self, second):
+        numerator = self.numerator * second.numerator
+        denominator = self.denominator * second.denominator
         return Rational(numerator, denominator)
 
 
