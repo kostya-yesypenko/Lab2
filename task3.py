@@ -2,20 +2,24 @@ class Product:
     def __init__(self, price, description):
         if price < 0:
             raise ValueError
-        if not isinstance(price, (int, float)):
-            raise TypeError("Wrong price number")
+        if not isinstance(price, (int)):
+            raise TypeError("Price isn't a number")
         self.price = price
         self.description = description
 
+    def __str__(self):
+        return f'The price of {self.description} is {self.price}'
 
 class Customer:
     def __init__(self, surname, name, mobile_phone):
         if not isinstance(mobile_phone, (int, float)):
-            raise TypeError("Wrong phone number")
+            raise TypeError("Mobile phone isn't a number")
         self.surname = surname
         self.name = name
         self.mobile_phone = mobile_phone
 
+    def __str__(self):
+        return f'The customer is {self.surname} {self.name}, phonenumber is {self.mobile_phone}'
 
 class Order:
     def __init__(self, customer, *product):
@@ -23,24 +27,44 @@ class Order:
             raise TypeError("There is no customer")
         for i in product:
             if not isinstance(i, Product):
-                raise TypeError("Wrong products")
+                raise TypeError("There is not only products")
         self.customer = customer
-        self.products = product
+        self.products = []
+        self.products_quantity = []
+        for i in product:
+            self.Add_Product(i)
         self.money = 0
 
-    def __calculate_order(self):
+    def Add_Product(self, product):
+        if product in self.products:
+            self.products_quantity[self.products.index(product)] += 1
+        else:
+            self.products.append(product)
+            self.products_quantity.append(1)
+
+    def Delete_Product(self, product):
+        if product in self.products:
+            if self.products_quantity[self.products.index(product)] > 1:
+                self.products_quantity[self.products.index(product)] -= 1
+            else:
+                self.products.pop(self.products.index(product))
+                self.products_quantity.pop(self.products.index(product))
+    def __Calculate_Order(self):
         self.money = 0
         for i in self.products:
-            self.money += i.price
+            self.money += i.price * self.products_quantity[self.products.index(i)]
         return self.money
 
     def __str__(self):
-        return f'The price of order for {self.customer.surname} {self.customer.name} costs {self.__calculate_order()}'
+        return f'The price of order for {self.customer.surname} {self.customer.name} is {self.__Calculate_Order()}'
 
-
-customer1 = Customer("Yesypenko", "Kostia", 380971610252)
-plane = Product(10, "Plane")
-book = Product(5, "Book")
-guitar = Product(12, "Guitar")
-order = Order(customer1, guitar, plane)
+me = Customer("Kostia", "Yesypenko", 3809999999)
+plane = Product(3, "Plane")
+print(plane)
+print(me)
+pineapple = Product(5, "Pineapple")
+order = Order(me, plane, plane)
+order.Add_Product(plane)
+order.Add_Product(pineapple)
+order.Delete_Product(apple)
 print(order)
